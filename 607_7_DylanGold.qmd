@@ -4,9 +4,6 @@ format: html
 editor: visual
 ---
 
-
-# 607 Assignment 7 Dylan Gold
-
 ## Approach
 In this assignment we have to create our own html and json data from information about books. I will do this manually. Then we import them into R and compare them to each other and determine if they are identical.
 It seems simple enough to me. We need 3 books one with multiple authors. We also need some extra attributes. 
