@@ -8,3 +8,17 @@ editor: visual
 # 607 Assignment 7 Dylan Gold
 
 ## Approach
+In this assignment we have to create our own html and json data from information about books. I will do this manually. Then we import them into R and compare them to each other and determine if they are identical.
+It seems simple enough to me. We need 3 books one with multiple authors. We also need some extra attributes. 
+
+For my books I will choose Sunrise Nights by Jeff Zentner and Brittany Cavallaro, The Lord of the Rings by 	J. R. R. Tolkien and Neuromancer by William Gibson.
+For my extra attributes I will have publisher, publication date and genre. 
+
+I can get the information on these from wikipedia or amazon. \
+The data for these books in title, author(s), publisher, publication date, genre are: \
+Sunrise Nights, Jeff Zentne; Brittany Cavallaro, Quill Tree Books, July 9, 2024, Romance \
+The Lord of the Rings,	J. R. R. Tolkien, Allen & Unwin, July 29 1954, Fantasy \
+Neuromancer, 	William Gibson, Ace Books, July 1, 1984, Science fiction  \
+
+I will likely use the R functions dplyr all_equal() or identical() to compare them.
+
