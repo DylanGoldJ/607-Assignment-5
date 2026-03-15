@@ -48,59 +48,20 @@ The following is a copy of my json I created \
     }
 ]
 
-Now I will also create a html table for the data. The table is different in its creation, we list each attribute for all the elements as match them on the index.  \
+Now I will also create a html table for the data. The data will follow a similar format  \
 I was less familiar with creating raw html because most web development has some framework to help. The key things with an html table are <th></th> for the headers, <tr></tr> for the rows then <td></td> for the cells. \
-This was the table I created
-<table>
-  	<tr>
-    	<th>title</th>
-    	<th>author</th>
-    	<th>publisher</th>
-	    <th>publication_date</th>
-	    <th>genre</th>
-  </tr>
 
-  <tr>
-    <td>Sunrise Nights</td>
-    <td>The Lord of the Rings</td>
-    <td>Neuromancer</td>
-  </tr>
 
-  <tr>
-    <td>Jeff Zentne, Brittany Cavallaro</td>
-    <td>J. R. R. Tolkien</td>
-    <td>William Gibson</td>
-  </tr>
 
-  <tr>
-    <td>Quill Tree Books</td>
-    <td>Allen & Unwin</td>
-    <td>Ace Books</td>
-  </tr>
 
-  <tr>
-    <td>July 9, 2024</td>
-    <td>July 29, 1954</td>
-    <td>July 1, 1984</td>
-  </tr>
-
-  <tr>
-    <td>Romance</td>
-    <td>Fantasy</td>
-    <td>Science fiction</td>
-  </tr>
-</table>
-
-Now we can bring them into R
+Now we can bring them into R, to bring the html into R I will use a package called rvest
 ```{r, warning=FALSE}
-url <- "http://www.eia.gov/electricity/wholesalemarkets/csv/nyiso_load_act_hr_2022.csv"
+library(rvest)
+html_url <- "https://raw.githubusercontent.com/DylanGoldJ/607-Assignment-5/refs/heads/main/books.html"
+json_url <- "raw.githubusercontent.com/DylanGoldJ/607-Assignment-5/refs/heads/main/books.json"
 
-df_22<- read_csv(
-  file = url,
-  show_col_types = FALSE, 
-  skip = 3 # First three lines are not apart of the data
-)
-
+html_books <- read_html(html_url)
+tables <- html_table(html_books)
 ```
 
 
