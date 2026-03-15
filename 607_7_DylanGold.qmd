@@ -96,7 +96,7 @@ I also need some libraries to make this easier, rvest for the html and jsonlite 
 ```{r warning=FALSE}
 library(rvest)
 library(jsonlite)
-
+library(dplyr) #Helping select for comparisons
 ```
 
 Now we can bring them into R, to bring the html into R I will use a package called rvest
@@ -105,6 +105,7 @@ library(rvest)
 html_url <- "https://raw.githubusercontent.com/DylanGoldJ/607-Assignment-5/refs/heads/main/books.html"
 
 html_books <- read_html(html_url) %>% html_table()
+html_books <- html_books[[1]] # html_table returns a list of tibbles, we just have one we need to retrieve
 ```
 
 Now the json file, I will use jsonlite for this
@@ -112,24 +113,35 @@ Now the json file, I will use jsonlite for this
 json_url <- "https://raw.githubusercontent.com/DylanGoldJ/607-Assignment-5/refs/heads/main/books.json"
 
 json_books <- fromJSON(json_url)
+
 ```
 
+Now we can look at the tables that we created. html books needs to be converted from a tibble to a dataframe
+```{r}
+html_books <- as.data.frame(html_books)
+html_books
+```
 
+```{r}
+json_books
+```
+We can see that the data is the same other than the formating of the authors. While in the json it was properly addressed as a list of character which represents the authors, in the html file the list was combined into a string.
+I will try to compare them as they are now with all_equal
+This function returns a list of characters describing the differences. \
+There is an error can see that due to how the author column was created differently, they are not even the same type. They are not completely equal
+```{r}
+all.equal(html_books, json_books)
+```
+We can try to compare them without the author column and rownames to see how all.equal will treat it.
+```{r}
+html_books_removed_author <- select(html_books, -"author")
+json_books_removed_author <- select(json_books, -"author")
+all.equal(html_books_removed_author, json_books_removed_author)
+```
+We can see other than this column they are equal. This is due to the way I created these files. If I had created the files in a way that kept them as strings like "Jeff Zentne, Cavallaro" rather than separating them this would not have been a problem.\
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Conclusion
+In conclusion this assignment helped me understand the formating behind json and html files. I was able to create a data frame from both these formats using libraries like rvest and jsonlite. This has future applications of being used in all sorts of apis for json or for webscraping with html. These dataframes were nearly identical but due to the way json and html treats lists diffrently they were not exactly the same. Interestingly json upcasted the whole column as lists and html downcasted the list to strings. Some additions I could do to this assignment are pulling data straight from a site using an api or webscrapping and comparing data or just examining it from there. 
 
 
 
