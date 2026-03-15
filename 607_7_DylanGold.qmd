@@ -5,17 +5,89 @@ editor: visual
 ---
 
 ## Approach
-In this assignment we have to create our own html and json data from information about books. I will do this manually. Then we import them into R and compare them to each other and determine if they are identical.
-It seems simple enough to me. We need 3 books one with multiple authors. We also need some extra attributes. 
 
-For my books I will choose Sunrise Nights by Jeff Zentner and Brittany Cavallaro, The Lord of the Rings by 	J. R. R. Tolkien and Neuromancer by William Gibson.
-For my extra attributes I will have publisher, publication date and genre. 
+In this assignment we have to create our own html and json data from information about books. I will do this manually. Then we import them into R and compare them to each other and determine if they are identical. It seems simple enough to me. We need 3 books one with multiple authors. We also need some extra attributes.
 
-I can get the information on these from wikipedia or amazon. \
-The data for these books in title, author(s), publisher, publication date, genre are: \
-Sunrise Nights, Jeff Zentne; Brittany Cavallaro, Quill Tree Books, July 9, 2024, Romance \
-The Lord of the Rings,	J. R. R. Tolkien, Allen & Unwin, July 29 1954, Fantasy \
-Neuromancer, 	William Gibson, Ace Books, July 1, 1984, Science fiction  \
+For my books I will choose Sunrise Nights by Jeff Zentner and Brittany Cavallaro, The Lord of the Rings by J. R. R. Tolkien and Neuromancer by William Gibson. For my extra attributes I will have publisher, publication date and genre.
+
+I can get the information on these from wikipedia or amazon.\
+The data for these books in title, author(s), publisher, publication date, genre are:\
+Sunrise Nights, Jeff Zentne; Brittany Cavallaro, Quill Tree Books, July 9, 2024, Romance\
+The Lord of the Rings, J. R. R. Tolkien, Allen & Unwin, July 29 1954, Fantasy\
+Neuromancer, William Gibson, Ace Books, July 1, 1984, Science fiction\
 
 I will likely use the R functions dplyr all_equal() or identical() to compare them.
+
+## Codebase
+
+First I will create my files by hand. I will start off with the json data.\
+I will follow the format from my approach. Each of the books are stored in an overall list.
+
+The following is a copy of my json I created \
+[
+    {
+      "title":"Sunrise Nights",
+      "author":["Jeff Zentne", "Brittany Cavallaro"],
+      "publisher":"Quill Tree Books",
+      "publication_date":"July 9, 2024",
+      "genre":"Romance"
+    },
+    {
+      "title":"The Lord of the Rings",
+      "author":["J. R. R. Tolkien"],
+      "publisher":"Allen & Unwin",
+      "publication_date":"July 29, 1954",
+      "genre":"Fantasy"
+    },
+    {
+      "title":"Neuromancer",
+      "author":["William Gibson"],
+      "publisher":"Ace Books",
+      "publication_date":"July 1, 1984",
+      "genre":"Science fiction"
+    }
+]
+
+Now I will also create a html table for the data. The table is different in its creation, we list each attribute for all the elements as match them on the index.  \
+I was less familiar with creating raw html because most web development has some framework to help. The key things with an html table are <th></th> for the headers, <tr></tr> for the rows then <td></td> for the cells. \
+This was the table I created
+<table>
+  	<tr>
+    	<th>title</th>
+    	<th>author</th>
+    	<th>publisher</th>
+	    <th>publication_date</th>
+	    <th>genre</th>
+  </tr>
+
+  <tr>
+    <td>Sunrise Nights</td>
+    <td>The Lord of the Rings</td>
+    <td>Neuromancer</td>
+  </tr>
+
+  <tr>
+    <td>Jeff Zentne, Brittany Cavallaro</td>
+    <td>J. R. R. Tolkien</td>
+    <td>William Gibson</td>
+  </tr>
+
+  <tr>
+    <td>Quill Tree Books</td>
+    <td>Allen & Unwin</td>
+    <td>Ace Books</td>
+  </tr>
+
+  <tr>
+    <td>July 9, 2024</td>
+    <td>July 29, 1954</td>
+    <td>July 1, 1984</td>
+  </tr>
+
+  <tr>
+    <td>Romance</td>
+    <td>Fantasy</td>
+    <td>Science fiction</td>
+  </tr>
+</table>
 

@@ -1,0 +1,23 @@
+[
+    {
+      "title":"Sunrise Nights",
+      "author":["Jeff Zentne", "Brittany Cavallaro"],
+      "publisher":"Quill Tree Books",
+      "publication_date":"July 9, 2024",
+      "genre":"Romance"
+    },
+    {
+      "title":"The Lord of the Rings",
+      "author":["J. R. R. Tolkien"],
+      "publisher":"Allen & Unwin",
+      "publication_date":"July 29, 1954",
+      "genre":"Fantasy"
+    },
+    {
+      "title":"Neuromancer",
+      "author":["William Gibson"],
+      "publisher":"Ace Books",
+      "publication_date":"July 1, 1984",
+      "genre":"Science fiction"
+    }
+]
