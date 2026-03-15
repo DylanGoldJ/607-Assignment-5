@@ -49,8 +49,8 @@ The following is a copy of my json I created \
 ]
 
 Now I will also create a html table for the data. The data will follow a similar format  \
-I was less familiar with creating raw html because most web development has some framework to help. The key things with an html table are <th></th> for the headers, <tr></tr> for the rows then <td></td> for the cells. \
-I actually had to go back for one more thing, <ul></ul> for a list, and <li></li> for a list item
+I was less familiar with creating raw html because most web development has some framework to help. The key things with an html table are \<th>\</th> for the headers, \<tr>\</tr> for the rows then \<td>\</td> for the cells. \
+I actually had to go back for one more thing, \<ul>\</ul> for a list, and \<li>\</li> for a list item
 
 
 This is the table data:
@@ -93,7 +93,7 @@ This is the table data:
 First I put them into my github directory. \
 
 I also need some libraries to make this easier, rvest for the html and jsonlite for the json.
-```{r warning=FALSE}
+```{r warning=FALSE, message=FALSE}
 library(rvest)
 library(jsonlite)
 library(dplyr) #Helping select for comparisons
@@ -141,7 +141,7 @@ all.equal(html_books_removed_author, json_books_removed_author)
 We can see other than this column they are equal. This is due to the way I created these files. If I had created the files in a way that kept them as strings like "Jeff Zentne, Cavallaro" rather than separating them this would not have been a problem.\
 
 ## Conclusion
-In conclusion this assignment helped me understand the formating behind json and html files. I was able to create a data frame from both these formats using libraries like rvest and jsonlite. This has future applications of being used in all sorts of apis for json or for webscraping with html. These dataframes were nearly identical but due to the way json and html treats lists diffrently they were not exactly the same. Interestingly json upcasted the whole column as lists and html downcasted the list to strings. Some additions I could do to this assignment are pulling data straight from a site using an api or webscrapping and comparing data or just examining it from there. 
+In conclusion this assignment helped me understand the formating behind json and html files. I was able to create a data frame from both these formats using libraries like rvest and jsonlite. This has future applications of being used in all sorts of apis for json or for webscraping with html. These dataframes were nearly identical but due to the way json and html treats lists diffrently they were not exactly the same. Interestingly json upcasted the whole column as lists and html downcasted the list to a string. Some additions I could do to this assignment are pulling data straight from a site using an api or webscrapping and comparing data or just examining it from there. 
 
 
 
