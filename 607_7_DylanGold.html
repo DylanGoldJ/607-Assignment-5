@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -79,10 +114,164 @@ Neuromancer, William Gibson, Ace Books, July 1, 1984, Science fiction<br>
 <section id="codebase" class="level2">
 <h2 class="anchored" data-anchor-id="codebase">Codebase</h2>
 <p>First I will create my files by hand. I will start off with the json data.<br>
-I will follow the format from my approach with the modification that each book is stored in a list of books called books.</p>
+I will follow the format from my approach. Each of the books are stored in an overall list.</p>
 <p>The following is a copy of my json I created<br>
-{ “books”:[ { “title”:“Sunrise Nights”, “author”:[“Jeff Zentne”, “Brittany Cavallaro”], “publisher”:“Quill Tree Books”, “publication_date”:“July 9, 2024”, “genre”:“Romance” }, { “title”:“The Lord of the Rings”, “author”:[“J. R. R. Tolkien”], “publisher”:“Allen &amp; Unwin”, “publication_date”:“July 29 1954”, “genre”:“Fantasy” }, { “title”:“Neuromancer”, “author”:[“William Gibson”], “publisher”:“Ace Books”, “publication_date”:“July 1, 1984”, “genre”:“Science fiction” } ] }<br>
+[ { “title”:“Sunrise Nights”, “author”:[“Jeff Zentne”, “Brittany Cavallaro”], “publisher”:“Quill Tree Books”, “publication_date”:“July 9, 2024”, “genre”:“Romance” }, { “title”:“The Lord of the Rings”, “author”:[“J. R. R. Tolkien”], “publisher”:“Allen &amp; Unwin”, “publication_date”:“July 29, 1954”, “genre”:“Fantasy” }, { “title”:“Neuromancer”, “author”:[“William Gibson”], “publisher”:“Ace Books”, “publication_date”:“July 1, 1984”, “genre”:“Science fiction” }]</p>
+<p>Now I will also create a html table for the data. The data will follow a similar format<br>
+I was less familiar with creating raw html because most web development has some framework to help. The key things with an html table are &lt;th&gt;&lt;/th&gt; for the headers, &lt;tr&gt;&lt;/tr&gt; for the rows then &lt;td&gt;&lt;/td&gt; for the cells.<br>
+I actually had to go back for one more thing, &lt;ul&gt;&lt;/ul&gt; for a list, and &lt;li&gt;&lt;/li&gt; for a list item</p>
+This is the table data:
+<table>
+<tbody><tr>
+<th>
+title
+</th>
+<th>
+author
+</th>
+<th>
+publisher
+</th>
+<th>
+publication_date
+</th>
+<th>
+genre
+</th>
+</tr>
+<tr>
+<td>
+Sunrise Nights
+</td>
+<td>
+<ul>
+<li>
+Jeff Zentne
+</li>
+<li>
+Brittany Cavallaro
+</li>
+</ul>
+</td>
+<td>
+Quill Tree Books
+</td>
+<td>
+July 9, 2024
+</td>
+<td>
+Romance
+</td>
+</tr>
+<tr>
+<td>
+The Lord of the Rings
+</td>
+<td>
+J. R. R. Tolkien
+</td>
+<td>
+Allen &amp; Unwin
+</td>
+<td>
+July 29, 1954
+</td>
+<td>
+Fantasy
+</td>
+</tr>
+<tr>
+<td>
+Neuromancer
+</td>
+<td>
+William Gibson
+</td>
+<td>
+Ace Books
+</td>
+<td>
+July 1, 1984
+</td>
+<td>
+Science fiction
+</td>
+</tr>
+</tbody></table>
+<p>First I put them into my github directory.<br>
 </p>
+<p>I also need some libraries to make this easier, rvest for the html and jsonlite for the json.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co">#Helping select for comparisons</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now we can bring them into R, to bring the html into R I will use a package called rvest</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>html_url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/DylanGoldJ/607-Assignment-5/refs/heads/main/books.html"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>html_books <span class="ot">&lt;-</span> <span class="fu">read_html</span>(html_url) <span class="sc">%&gt;%</span> <span class="fu">html_table</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>html_books <span class="ot">&lt;-</span> html_books[[<span class="dv">1</span>]] <span class="co"># html_table returns a list of tibbles, we just have one we need to retrieve</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now the json file, I will use jsonlite for this</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>json_url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/DylanGoldJ/607-Assignment-5/refs/heads/main/books.json"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>json_books <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(json_url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now we can look at the tables that we created. html books needs to be converted from a tibble to a dataframe</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>html_books <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(html_books)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>html_books</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  title                                    author
+1        Sunrise Nights Jeff Zentne\n        \tBrittany Cavallaro
+2 The Lord of the Rings                          J. R. R. Tolkien
+3           Neuromancer                            William Gibson
+         publisher publication_date           genre
+1 Quill Tree Books     July 9, 2024         Romance
+2    Allen &amp; Unwin    July 29, 1954         Fantasy
+3        Ace Books     July 1, 1984 Science fiction</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>json_books</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  title                          author        publisher
+1        Sunrise Nights Jeff Zentne, Brittany Cavallaro Quill Tree Books
+2 The Lord of the Rings                J. R. R. Tolkien    Allen &amp; Unwin
+3           Neuromancer                  William Gibson        Ace Books
+  publication_date           genre
+1     July 9, 2024         Romance
+2    July 29, 1954         Fantasy
+3     July 1, 1984 Science fiction</code></pre>
+</div>
+</div>
+<p>We can see that the data is the same other than the formating of the authors. While in the json it was properly addressed as a list of character which represents the authors, in the html file the list was combined into a string. I will try to compare them as they are now with all_equal This function returns a list of characters describing the differences.<br>
+There is an error can see that due to how the author column was created differently, they are not even the same type. They are not completely equal</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(html_books, json_books)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Component \"author\": Modes: character, list"              
+[2] "Component \"author\": target is character, current is list"</code></pre>
+</div>
+</div>
+<p>We can try to compare them without the author column and rownames to see how all.equal will treat it.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>html_books_removed_author <span class="ot">&lt;-</span> <span class="fu">select</span>(html_books, <span class="sc">-</span><span class="st">"author"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>json_books_removed_author <span class="ot">&lt;-</span> <span class="fu">select</span>(json_books, <span class="sc">-</span><span class="st">"author"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(html_books_removed_author, json_books_removed_author)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>We can see other than this column they are equal. This is due to the way I created these files. If I had created the files in a way that kept them as strings like “Jeff Zentne, Cavallaro” rather than separating them this would not have been a problem.<br>
+</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In conclusion this assignment helped me understand the formating behind json and html files. I was able to create a data frame from both these formats using libraries like rvest and jsonlite. This has future applications of being used in all sorts of apis for json or for webscraping with html. These dataframes were nearly identical but due to the way json and html treats lists diffrently they were not exactly the same. Interestingly json upcasted the whole column as lists and html downcasted the list to a string. Some additions I could do to this assignment are pulling data straight from a site using an api or webscrapping and comparing data or just examining it from there.</p>
 </section>
 
 </main>
