@@ -64,7 +64,12 @@ This is the table data:
   </tr>
   <tr>
     	<td>Sunrise Nights</td>
-    	<td>Jeff Zentne, Brittany Cavallaro</td>
+    	<td>
+      		<ul>
+        	<li>Jeff Zentne</li>
+        	<li>Brittany Cavallaro</li>
+      		</ul>
+	    </td>
     	<td>Quill Tree Books</td>
 	<td>July 9, 2024</td>
 	<td>Romance</td>
