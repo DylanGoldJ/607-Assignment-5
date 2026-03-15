@@ -91,3 +91,41 @@ This was the table I created
   </tr>
 </table>
 
+Now we can bring them into R
+```{r, warning=FALSE}
+url <- "http://www.eia.gov/electricity/wholesalemarkets/csv/nyiso_load_act_hr_2022.csv"
+
+df_22<- read_csv(
+  file = url,
+  show_col_types = FALSE, 
+  skip = 3 # First three lines are not apart of the data
+)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
